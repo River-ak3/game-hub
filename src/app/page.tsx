@@ -3,6 +3,31 @@ import { getGames, getGameMeta } from "@/lib/mdx";
 import { Hero } from "@/components/home/Hero";
 import { GameCard } from "@/components/home/GameCard";
 import { AdSlot } from "@/components/ads/AdSlot";
+import type { Metadata } from "next";
+
+const SITE_URL = "https://game-hub-eta-rose.vercel.app";
+
+export const metadata: Metadata = {
+  title: "GameHub - 游戏攻略站",
+  description: "高质量游戏攻略与指南，覆盖热门游戏的Boss攻略、隐藏任务、收集要素等完整内容。",
+  alternates: {
+    canonical: SITE_URL,
+  },
+  openGraph: {
+    title: "GameHub - 游戏攻略站",
+    description: "高质量游戏攻略与指南，覆盖热门游戏的Boss攻略、隐藏任务、收集要素等完整内容。",
+    url: SITE_URL,
+    type: "website",
+    images: [
+      {
+        url: `${SITE_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "GameHub - 游戏攻略站",
+      },
+    ],
+  },
+};
 
 export default function HomePage() {
   const gameSlugs = getGames();
@@ -11,8 +36,29 @@ export default function HomePage() {
     ...getGameMeta(slug),
   }));
 
+  // JSON-LD structured data for homepage
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "GameHub",
+    url: SITE_URL,
+    description: "高质量游戏攻略与指南",
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  };
+
   return (
     <div>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Hero />
 
       {/* Header Banner Ad */}
