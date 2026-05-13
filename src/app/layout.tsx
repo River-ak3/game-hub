@@ -32,7 +32,6 @@ export const metadata: Metadata = {
   },
   description: "高质量游戏攻略与指南，覆盖热门游戏的Boss攻略、隐藏任务、收集要素等完整内容。",
   keywords: ["游戏攻略", "游戏指南", "黑神话悟空", "地平线", "GTA6", "游戏攻略站"],
-  charset: "UTF-8",
   openGraph: {
     type: "website",
     locale: "zh_CN",
@@ -71,9 +70,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="zh-CN" className="dark" suppressHydrationWarning>
-      <head>
-        <meta name="charset" content="UTF-8" />
-      </head>
+      <head />
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${notoSansSC.variable} min-h-screen antialiased bg-background text-foreground`}
       >
