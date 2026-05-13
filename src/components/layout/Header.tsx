@@ -2,92 +2,91 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "/", label: "首页" },
-  { href: "/games", label: "游戏" },
-  { href: "/search", label: "搜索" },
+  { label: "首页", href: "/" },
+  { label: "全部游戏", href: "/games" },
+  { label: "搜索", href: "/search" },
 ];
 
 export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 glass border-b border-border">
+    <header className="sticky top-0 z-50 border-b border-border bg-[var(--color-bg)]/80 backdrop-blur-xl supports-[backdrop-filter]:bg-[var(--color-bg)]/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm">
-              G
-            </div>
-            <span className="text-lg font-bold text-text-primary group-hover:text-primary transition-colors">
+          <Link href="/" className="flex items-center gap-2 shrink-0">
+            <span className="text-lg sm:text-xl">🎮</span>
+            <span className="text-base sm:text-lg font-bold text-text-primary">
               GameHub
             </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="px-4 py-2 rounded-lg text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-surface-light transition-all"
-              >
-                {link.label}
-              </Link>
-            ))}
+          <nav className="hidden sm:flex items-center gap-1">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`px-3 lg:px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? "text-primary bg-primary/10"
+                      : "text-text-secondary hover:text-text-primary hover:bg-surface"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile menu button - min 44px touch target */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface-light transition-all"
-            aria-label="Toggle menu"
+            className="sm:hidden flex items-center justify-center w-11 h-11 -mr-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-surface transition-colors"
+            aria-label="菜单"
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              {mobileOpen ? (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              ) : (
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              )}
-            </svg>
+            {mobileOpen ? (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            ) : (
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            )}
           </button>
         </div>
-      </div>
 
-      {/* Mobile Nav */}
-      {mobileOpen && (
-        <div className="md:hidden border-t border-border animate-slide-down">
-          <nav className="px-4 py-3 space-y-1">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileOpen(false)}
-                className="block px-4 py-2 rounded-lg text-sm font-medium text-text-secondary hover:text-text-primary hover:bg-surface-light transition-all"
-              >
-                {link.label}
-              </Link>
-            ))}
+        {/* Mobile Nav Dropdown */}
+        {mobileOpen && (
+          <nav className="sm:hidden pb-3 border-t border-border/50 animate-fade-in">
+            {navLinks.map((link) => {
+              const active = pathname === link.href;
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`flex items-center min-h-[44px] px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                    active
+                      ? "text-primary bg-primary/10"
+                      : "text-text-secondary hover:text-text-primary hover:bg-surface"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
           </nav>
-        </div>
-      )}
+        )}
+      </div>
     </header>
   );
 }
