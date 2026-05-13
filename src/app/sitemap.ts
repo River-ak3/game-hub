@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
 import { getGames, getGameMeta, getGuidesByGame } from "@/lib/mdx";
 
-const BASE_URL = "https://game-hub-eta-rose.vercel.app";
+const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://game-hub-eta-rose.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const games = getGames();
