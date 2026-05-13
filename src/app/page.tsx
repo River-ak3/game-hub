@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { getAllGameSlugs, getGameMeta } from "@/lib/mdx";
+import { getGames, getGameMeta } from "@/lib/mdx";
 import { Hero } from "@/components/home/Hero";
 import { GameCard } from "@/components/home/GameCard";
 import { AdSlot } from "@/components/ads/AdSlot";
 
 export default function HomePage() {
-  const gameSlugs = getAllGameSlugs();
+  const gameSlugs = getGames();
   const games = gameSlugs.map((slug) => ({
     slug,
     ...getGameMeta(slug),
