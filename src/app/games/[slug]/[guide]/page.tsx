@@ -5,6 +5,8 @@ import { Breadcrumb } from "@/components/guide/Breadcrumb";
 import { AdSlot } from "@/components/ads/AdSlot";
 import type { Metadata } from "next";
 
+const SITE_URL = "https://game-hub-eta-rose.vercel.app";
+
 interface PageProps {
   params: Promise<{ slug: string; guide: string }>;
 }
@@ -24,17 +26,31 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const fm = data.frontmatter;
   const title = fm.seo?.title || `${fm.title} - ${game?.title || slug} 攻略`;
   const desc = fm.seo?.description || fm.description;
+  const url = `${SITE_URL}/games/${slug}/${guide}`;
 
   return {
     title,
     description: desc,
     keywords: fm.seo?.keywords || fm.tags,
+    alternates: {
+      canonical: url,
+    },
     openGraph: {
       title,
       description: desc,
+      url,
       type: "article",
       publishedTime: fm.updatedAt,
+      modifiedTime: fm.updatedAt,
       tags: fm.tags,
+      images: [
+        {
+          url: `${SITE_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
   };
 }
@@ -54,8 +70,44 @@ export default async function GuidePage({ params }: PageProps) {
   const fm = data.frontmatter;
   const diff = fm.difficulty ? difficultyMap[fm.difficulty] : null;
 
+  // JSON-LD for article
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: fm.title,
+    description: fm.description,
+    url: `${SITE_URL}/games/${slug}/${guide}`,
+    datePublished: fm.createdAt,
+    dateModified: fm.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: "GameHub",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "GameHub",
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/og-image.png`,
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/games/${slug}/${guide}`,
+    },
+    about: {
+      "@type": "VideoGame",
+      name: game?.title || slug,
+    },
+    keywords: fm.tags?.join(", "),
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumb
         items={[
           { label: "首页", href: "/" },
@@ -98,19 +150,16 @@ export default async function GuidePage({ params }: PageProps) {
             <hr className="border-border mt-6" />
           </header>
 
-          {/* In-article Ad (after header, before content) */}
           <AdSlot slot="in-article" className="mb-6" />
 
-          {/* MDX Content */}
           <MDXRenderer source={data.content} />
 
-          {/* Footer Ad */}
           <div className="mt-8">
             <AdSlot slot="footer-banner" />
           </div>
         </article>
 
-        {/* Sidebar - Hidden on mobile, visible on lg+ */}
+        {/* Sidebar */}
         <aside className="hidden lg:block w-80 shrink-0">
           <div className="sticky top-24 space-y-6">
             <div className="rounded-xl bg-surface border border-border p-5">
