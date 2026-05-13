@@ -1,5 +1,5 @@
 import { notFound } from "next/navigation";
-import { getGameMeta, getGuidesByGame, getAllGameSlugs } from "@/lib/mdx";
+import { getGameMeta, getGuidesByGame, getGames } from "@/lib/mdx";
 import { GuideCard } from "@/components/game/GuideCard";
 import { Breadcrumb } from "@/components/guide/Breadcrumb";
 import type { Metadata } from "next";
@@ -9,7 +9,7 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllGameSlugs().map((slug) => ({ slug }));
+  return getGames().map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -50,9 +50,7 @@ export default async function GamePage({ params }: PageProps) {
       {/* Game Header */}
       <div className="mt-4 sm:mt-6 rounded-2xl bg-surface border border-border overflow-hidden">
         <div className={`h-32 sm:h-48 bg-gradient-to-br ${gradientClass} flex items-center justify-center`}>
-          <span className="text-5xl sm:text-7xl drop-shadow-lg select-none">
-            {game.icon || "🎮"}
-          </span>
+          <span className="text-5xl sm:text-7xl drop-shadow-lg select-none">🎮</span>
         </div>
         <div className="p-4 sm:p-6 lg:p-8 -mt-6 sm:-mt-8 relative">
           <div className="flex flex-wrap gap-2 mb-3">
@@ -61,9 +59,9 @@ export default async function GamePage({ params }: PageProps) {
                 {game.genre}
               </span>
             )}
-            {game.platforms?.map((p: string) => (
-              <span key={p} className="inline-flex px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-surface-lighter text-text-muted">
-                {p}
+            {game.tags?.slice(0, 4).map((tag: string) => (
+              <span key={tag} className="inline-flex px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-surface-lighter text-text-muted">
+                {tag}
               </span>
             ))}
           </div>
