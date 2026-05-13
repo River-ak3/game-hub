@@ -3,69 +3,50 @@ import Link from "next/link";
 export function Footer() {
   return (
     <footer className="border-t border-border bg-surface/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Brand */}
-          <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm">
-                G
-              </div>
-              <span className="text-lg font-bold text-text-primary">
-                GameHub
-              </span>
-            </Link>
-            <p className="text-sm text-text-muted leading-relaxed">
-              高质量游戏攻略与指南，帮助玩家探索每一款游戏的精彩内容。
+          <div className="sm:col-span-2 lg:col-span-1">
+            <div className="flex items-center gap-2 mb-3">
+              <span className="text-xl">🎮</span>
+              <span className="text-lg font-bold text-text-primary">GameHub</span>
+            </div>
+            <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+              你的游戏攻略终极指南
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-4">
-              快速导航
-            </h3>
+            <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3">快速导航</h3>
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/"
-                  className="text-sm text-text-secondary hover:text-accent transition-colors"
-                >
-                  首页
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/games"
-                  className="text-sm text-text-secondary hover:text-accent transition-colors"
-                >
-                  全部游戏
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/search"
-                  className="text-sm text-text-secondary hover:text-accent transition-colors"
-                >
-                  搜索攻略
-                </Link>
-              </li>
+              <li><Link href="/" className="text-xs sm:text-sm text-text-secondary hover:text-primary transition-colors">首页</Link></li>
+              <li><Link href="/games" className="text-xs sm:text-sm text-text-secondary hover:text-primary transition-colors">全部游戏</Link></li>
+              <li><Link href="/search" className="text-xs sm:text-sm text-text-secondary hover:text-primary transition-colors">搜索攻略</Link></li>
             </ul>
           </div>
 
-          {/* Info */}
+          {/* About */}
           <div>
-            <h3 className="text-sm font-semibold text-text-primary mb-4">
-              关于
-            </h3>
-            <p className="text-sm text-text-muted leading-relaxed">
-              GameHub 致力于为玩家提供最全面、最优质的游戏攻略内容。所有内容均经过验证，确保准确性。
-            </p>
+            <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3">关于</h3>
+            <ul className="space-y-2">
+              <li><span className="text-xs sm:text-sm text-text-secondary">关于我们</span></li>
+              <li><span className="text-xs sm:text-sm text-text-secondary">联系方式</span></li>
+            </ul>
+          </div>
+
+          {/* Legal */}
+          <div>
+            <h3 className="text-xs sm:text-sm font-semibold text-text-primary mb-3">法律</h3>
+            <ul className="space-y-2">
+              <li><span className="text-xs sm:text-sm text-text-secondary">隐私政策</span></li>
+              <li><span className="text-xs sm:text-sm text-text-secondary">服务条款</span></li>
+            </ul>
           </div>
         </div>
 
-        <div className="mt-8 pt-8 border-t border-border">
-          <p className="text-center text-xs text-text-muted">
+        <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-border/50 text-center">
+          <p className="text-[11px] sm:text-xs text-text-muted">
             © {new Date().getFullYear()} GameHub. All rights reserved.
           </p>
         </div>
