@@ -1,14 +1,8 @@
 import Link from "next/link";
+import type { GameMeta } from "@/types/content";
 
 interface GameCardProps {
-  game: {
-    slug: string;
-    title: string;
-    description?: string;
-    icon?: string;
-    genre?: string;
-    platforms?: string[];
-  };
+  game: (GameMeta & { slug: string }) | null;
 }
 
 const genreColors: Record<string, string> = {
@@ -20,20 +14,18 @@ const genreColors: Record<string, string> = {
 };
 
 export function GameCard({ game }: GameCardProps) {
+  if (!game) return null;
   const gradientClass = genreColors[game.genre || ""] || "from-primary to-accent";
-  const platformText = game.platforms?.join(" · ") || "";
 
   return (
     <Link
       href={`/games/${game.slug}`}
-      className="group block min-h-[44px]" /* min-h ensures touch target */
+      className="group block min-h-[44px]"
     >
       <div className="rounded-2xl bg-surface border border-border overflow-hidden card-glow h-full">
         {/* Cover Gradient */}
         <div className={`relative h-36 sm:h-48 bg-gradient-to-br ${gradientClass} flex items-center justify-center overflow-hidden`}>
-          <span className="text-5xl sm:text-6xl drop-shadow-lg select-none">
-            {game.icon || "🎮"}
-          </span>
+          <span className="text-5xl sm:text-6xl drop-shadow-lg select-none">🎮</span>
           {/* Genre Badge */}
           {game.genre && (
             <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-medium bg-black/40 text-white backdrop-blur-sm">
@@ -52,10 +44,14 @@ export function GameCard({ game }: GameCardProps) {
               {game.description}
             </p>
           )}
-          {platformText && (
-            <p className="text-[11px] sm:text-xs text-text-muted">
-              {platformText}
-            </p>
+          {game.tags && game.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {game.tags.slice(0, 3).map((tag) => (
+                <span key={tag} className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-surface-lighter text-text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
           )}
         </div>
       </div>
