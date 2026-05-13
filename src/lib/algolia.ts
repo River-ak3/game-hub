@@ -54,8 +54,8 @@ export async function syncGuidesToAlgolia(): Promise<{
   }
 
   try {
-    const { searchClient } = await import('algoliasearch');
-    const client = searchClient(APP_ID, API_KEY);
+    const { algoliasearch } = await import('algoliasearch');
+    const client = algoliasearch(APP_ID, API_KEY);
 
     const records = prepareGuideRecords();
     await client.replaceAllObjects({ indexName: INDEX_NAME, objects: records as unknown as Record<string, unknown>[] });
@@ -90,8 +90,8 @@ export async function searchGuides(query: string): Promise<AlgoliaRecord[]> {
   if (!APP_ID || !query.trim()) return [];
 
   try {
-    const { searchClient } = await import('algoliasearch');
-    const client = searchClient(APP_ID, '');
+    const { algoliasearch } = await import('algoliasearch');
+    const client = algoliasearch(APP_ID, '');
     const { hits } = await client.searchSingleIndex({
       indexName: INDEX_NAME,
       searchParams: { query, hitsPerPage: 20 },
