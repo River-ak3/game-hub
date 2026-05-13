@@ -1,16 +1,8 @@
 import Link from "next/link";
+import type { GuideContent } from "@/types/content";
 
 interface GuideCardProps {
-  guide: {
-    slug: string;
-    title: string;
-    description?: string;
-    category?: string;
-    difficulty?: string;
-    tags?: string[];
-    date?: string;
-    readTime?: string;
-  };
+  guide: GuideContent;
   gameSlug: string;
 }
 
@@ -21,17 +13,18 @@ const difficultyMap: Record<string, { label: string; color: string }> = {
 };
 
 export function GuideCard({ guide, gameSlug }: GuideCardProps) {
-  const diff = guide.difficulty ? difficultyMap[guide.difficulty] : null;
+  const fm = guide.frontmatter;
+  const diff = fm.difficulty ? difficultyMap[fm.difficulty] : null;
 
   return (
     <Link
       href={`/games/${gameSlug}/${guide.slug}`}
-      className="group block min-h-[44px]" /* min-h ensures touch target */
+      className="group block min-h-[44px]"
     >
       <div className="rounded-xl bg-surface border border-border p-4 sm:p-5 card-glow h-full">
         <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
           <h3 className="text-sm sm:text-base font-semibold text-text-primary group-hover:text-primary transition-colors line-clamp-1 flex-1">
-            {guide.title}
+            {fm.title}
           </h3>
           {diff && (
             <span className={`inline-flex px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium border shrink-0 ${diff.color}`}>
@@ -40,25 +33,24 @@ export function GuideCard({ guide, gameSlug }: GuideCardProps) {
           )}
         </div>
 
-        {guide.description && (
+        {fm.description && (
           <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 mb-3">
-            {guide.description}
+            {fm.description}
           </p>
         )}
 
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 text-[11px] sm:text-xs text-text-muted">
-          {guide.category && (
+          {fm.category && (
             <span className="px-2 py-0.5 rounded-md bg-primary/10 text-primary font-medium">
-              {guide.category}
+              {fm.category}
             </span>
           )}
-          {guide.readTime && <span>{guide.readTime}</span>}
-          {guide.date && <span>{guide.date}</span>}
+          {fm.updatedAt && <span>{fm.updatedAt}</span>}
         </div>
 
-        {guide.tags && guide.tags.length > 0 && (
+        {fm.tags && fm.tags.length > 0 && (
           <div className="flex flex-wrap gap-1 mt-2">
-            {guide.tags.slice(0, 3).map((tag) => (
+            {fm.tags.slice(0, 3).map((tag) => (
               <span key={tag} className="text-[10px] px-1.5 py-0.5 rounded bg-surface-lighter text-text-muted">
                 {tag}
               </span>
