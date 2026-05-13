@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { GameMeta } from "@/types/content";
 
 interface GameCardProps {
-  game: (GameMeta & { slug: string }) | null;
+  game: Partial<GameMeta> & { slug: string };
 }
 
 const genreColors: Record<string, string> = {
@@ -14,7 +14,6 @@ const genreColors: Record<string, string> = {
 };
 
 export function GameCard({ game }: GameCardProps) {
-  if (!game) return null;
   const gradientClass = genreColors[game.genre || ""] || "from-primary to-accent";
 
   return (
@@ -23,21 +22,17 @@ export function GameCard({ game }: GameCardProps) {
       className="group block min-h-[44px]"
     >
       <div className="rounded-2xl bg-surface border border-border overflow-hidden card-glow h-full">
-        {/* Cover Gradient */}
         <div className={`relative h-36 sm:h-48 bg-gradient-to-br ${gradientClass} flex items-center justify-center overflow-hidden`}>
           <span className="text-5xl sm:text-6xl drop-shadow-lg select-none">🎮</span>
-          {/* Genre Badge */}
           {game.genre && (
             <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-medium bg-black/40 text-white backdrop-blur-sm">
               {game.genre}
             </span>
           )}
         </div>
-
-        {/* Content */}
         <div className="p-4 sm:p-5">
           <h3 className="text-base sm:text-lg font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-1 mb-1.5">
-            {game.title}
+            {game.title || game.slug}
           </h3>
           {game.description && (
             <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 mb-3">
