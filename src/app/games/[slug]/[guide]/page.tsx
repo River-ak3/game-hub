@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { getGuideBySlug, getAllGuideSlugs, getGameMeta } from "@/lib/mdx";
-import { MDXRenderer } from "@/components/content/MDXRenderer";
+import { getGuide, getAllGuides, getGameMeta } from "@/lib/mdx";
+import MDXRenderer from "@/components/content/MDXRenderer";
 import { Breadcrumb } from "@/components/guide/Breadcrumb";
 import { AdSlot } from "@/components/ads/AdSlot";
 import type { Metadata } from "next";
@@ -10,15 +10,15 @@ interface PageProps {
 }
 
 export async function generateStaticParams() {
-  return getAllGuideSlugs().map((g) => ({
-    slug: g.gameSlug,
+  return getAllGuides().map((g) => ({
+    slug: g.frontmatter.game,
     guide: g.slug,
   }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug, guide } = await params;
-  const data = getGuideBySlug(slug, guide);
+  const data = getGuide(slug, guide);
   if (!data) return {};
   const game = getGameMeta(slug);
   const fm = data.frontmatter;
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description: desc,
       type: "article",
-      publishedTime: fm.date,
+      publishedTime: fm.updatedAt,
       tags: fm.tags,
     },
   };
@@ -47,7 +47,7 @@ const difficultyMap: Record<string, { label: string; color: string }> = {
 
 export default async function GuidePage({ params }: PageProps) {
   const { slug, guide } = await params;
-  const data = getGuideBySlug(slug, guide);
+  const data = getGuide(slug, guide);
   if (!data) notFound();
 
   const game = getGameMeta(slug);
@@ -92,9 +92,8 @@ export default async function GuidePage({ params }: PageProps) {
               </p>
             )}
             <div className="flex items-center gap-4 mt-4 text-xs text-text-muted">
-              {fm.date && <time>{fm.date}</time>}
-              {fm.author && <span>作者: {fm.author}</span>}
-              {fm.readTime && <span>阅读 {fm.readTime}</span>}
+              {fm.updatedAt && <time>更新: {fm.updatedAt}</time>}
+              {fm.createdAt && <time>创建: {fm.createdAt}</time>}
             </div>
             <hr className="border-border mt-6" />
           </header>
@@ -103,11 +102,9 @@ export default async function GuidePage({ params }: PageProps) {
           <AdSlot slot="in-article" className="mb-6" />
 
           {/* MDX Content */}
-          <div className="prose-custom">
-            <MDXRenderer source={data.rawContent} />
-          </div>
+          <MDXRenderer source={data.content} />
 
-          {/* In-article Ad (after content) */}
+          {/* Footer Ad */}
           <div className="mt-8">
             <AdSlot slot="footer-banner" />
           </div>
@@ -116,15 +113,10 @@ export default async function GuidePage({ params }: PageProps) {
         {/* Sidebar - Hidden on mobile, visible on lg+ */}
         <aside className="hidden lg:block w-80 shrink-0">
           <div className="sticky top-24 space-y-6">
-            {/* Table of Contents placeholder */}
             <div className="rounded-xl bg-surface border border-border p-5">
-              <h3 className="text-sm font-semibold text-text-primary mb-3">
-                目录
-              </h3>
+              <h3 className="text-sm font-semibold text-text-primary mb-3">目录</h3>
               <p className="text-xs text-text-muted">自动根据标题生成</p>
             </div>
-
-            {/* Sidebar Ad */}
             <AdSlot slot="sidebar" />
           </div>
         </aside>
