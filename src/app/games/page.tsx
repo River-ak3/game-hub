@@ -2,9 +2,20 @@ import Link from "next/link";
 import { getGames, getGameMeta } from "@/lib/mdx";
 import type { Metadata } from "next";
 
+const SITE_URL = "https://game-hub-eta-rose.vercel.app";
+
 export const metadata: Metadata = {
   title: "全部游戏 - GameHub",
   description: "浏览所有游戏攻略，找到你需要的指南",
+  alternates: {
+    canonical: `${SITE_URL}/games`,
+  },
+  openGraph: {
+    title: "全部游戏 - GameHub",
+    description: "浏览所有游戏攻略，找到你需要的指南",
+    url: `${SITE_URL}/games`,
+    type: "website",
+  },
 };
 
 export default function GamesPage() {
@@ -54,7 +65,7 @@ export default function GamesPage() {
                 </div>
                 <div className="p-4 sm:p-5">
                   <h2 className="text-base sm:text-lg font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-1 mb-1.5">
-                    {game.title}
+                    {game.title || game.slug}
                   </h2>
                   {game.description && (
                     <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 mb-2">
