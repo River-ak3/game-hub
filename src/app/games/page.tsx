@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAllGameSlugs, getGameMeta } from "@/lib/mdx";
+import { getGames, getGameMeta } from "@/lib/mdx";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 };
 
 export default function GamesPage() {
-  const gameSlugs = getAllGameSlugs();
+  const gameSlugs = getGames();
   const games = gameSlugs.map((slug) => ({
     slug,
     ...getGameMeta(slug),
@@ -36,7 +36,6 @@ export default function GamesPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {games.map((game) => {
           const gradientClass = genreColors[game.genre || ""] || "from-primary to-accent";
-          const platformText = game.platforms?.join(" · ") || "";
 
           return (
             <Link
@@ -46,9 +45,7 @@ export default function GamesPage() {
             >
               <div className="rounded-2xl bg-surface border border-border overflow-hidden card-glow h-full">
                 <div className={`h-32 sm:h-40 bg-gradient-to-br ${gradientClass} flex items-center justify-center`}>
-                  <span className="text-4xl sm:text-5xl drop-shadow-lg select-none">
-                    {game.icon || "🎮"}
-                  </span>
+                  <span className="text-4xl sm:text-5xl drop-shadow-lg select-none">🎮</span>
                   {game.genre && (
                     <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-black/40 text-white backdrop-blur-sm">
                       {game.genre}
@@ -64,8 +61,14 @@ export default function GamesPage() {
                       {game.description}
                     </p>
                   )}
-                  {platformText && (
-                    <p className="text-[11px] sm:text-xs text-text-muted">{platformText}</p>
+                  {game.tags && game.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {game.tags.slice(0, 3).map((tag: string) => (
+                        <span key={tag} className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-surface-lighter text-text-muted">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   )}
                 </div>
               </div>
