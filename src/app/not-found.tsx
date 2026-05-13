@@ -1,4 +1,10 @@
-import { Metadata } from "next";
+import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "404 - 页面未找到",
+  description: "你访问的页面不存在",
+};
 
 export default function NotFound() {
   return (
@@ -10,12 +16,12 @@ export default function NotFound() {
       <p className="text-text-secondary mb-8">
         你访问的页面不存在，可能已被移动或删除。
       </p>
-      <a
+      <Link
         href="/"
         className="inline-flex items-center px-6 py-3 rounded-xl bg-primary hover:bg-primary-light text-white font-medium transition-all"
       >
         返回首页
-      </a>
+      </Link>
     </div>
   );
 }
