@@ -4,6 +4,8 @@ import { GuideCard } from "@/components/game/GuideCard";
 import { Breadcrumb } from "@/components/guide/Breadcrumb";
 import type { Metadata } from "next";
 
+const SITE_URL = "https://game-hub-eta-rose.vercel.app";
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -16,9 +18,28 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { slug } = await params;
   const game = getGameMeta(slug);
   if (!game) return {};
+  const url = `${SITE_URL}/games/${slug}`;
+
   return {
     title: `${game.title} 攻略 - GameHub`,
     description: game.description || `${game.title}游戏攻略大全`,
+    alternates: {
+      canonical: url,
+    },
+    openGraph: {
+      title: `${game.title} 攻略 - GameHub`,
+      description: game.description || `${game.title}游戏攻略大全`,
+      url,
+      type: "website",
+      images: [
+        {
+          url: `${SITE_URL}/og-image.png`,
+          width: 1200,
+          height: 630,
+          alt: `${game.title} 攻略`,
+        },
+      ],
+    },
   };
 }
 
@@ -38,8 +59,31 @@ export default async function GamePage({ params }: PageProps) {
   };
   const gradientClass = genreColors[game.genre || ""] || "from-primary to-accent";
 
+  // JSON-LD for game page
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: `${game.title} 攻略`,
+    description: game.description,
+    url: `${SITE_URL}/games/${slug}`,
+    isPartOf: {
+      "@type": "WebSite",
+      name: "GameHub",
+      url: SITE_URL,
+    },
+    about: {
+      "@type": "VideoGame",
+      name: game.title,
+      genre: game.genre,
+    },
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <Breadcrumb
         items={[
           { label: "首页", href: "/" },
