@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { getGameMeta, getGuidesByGame, getGames } from "@/lib/mdx";
 import { GuideCard } from "@/components/game/GuideCard";
+import { ScrollRestoration } from "@/components/game/ScrollRestoration";
 import { Breadcrumb } from "@/components/guide/Breadcrumb";
 import type { Metadata } from "next";
 
@@ -120,6 +121,9 @@ export default async function GamePage({ params }: PageProps) {
         </div>
       </div>
 
+      {/* Scroll Restoration */}
+      <ScrollRestoration />
+
       {/* Guides List */}
       <div className="mt-6 sm:mt-8">
         <h2 className="text-lg sm:text-xl font-bold text-text-primary mb-4">
@@ -134,8 +138,8 @@ export default async function GamePage({ params }: PageProps) {
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
-            {guides.map((guide) => (
-              <GuideCard key={guide.slug} guide={guide} gameSlug={slug} />
+            {guides.map((guide, i) => (
+              <GuideCard key={guide.slug} guide={guide} gameSlug={slug} index={i} />
             ))}
           </div>
         )}
