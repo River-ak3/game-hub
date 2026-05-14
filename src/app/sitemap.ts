@@ -3,6 +3,12 @@ import { getGames, getGameMeta, getGuidesByGame } from "@/lib/mdx";
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://game-hub-eta-rose.vercel.app";
 
+function safeDate(val: string | undefined): Date {
+  if (!val) return new Date();
+  const d = new Date(val);
+  return isNaN(d.getTime()) ? new Date() : d;
+}
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const games = getGames();
   const entries: MetadataRoute.Sitemap = [
@@ -33,7 +39,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     if (meta) {
       entries.push({
         url: `${BASE_URL}/games/${slug}`,
-        lastModified: new Date(meta.releaseDate),
+        lastModified: safeDate(meta.releaseDate),
         changeFrequency: "weekly",
         priority: 0.8,
       });
@@ -42,7 +48,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     for (const guide of guides) {
       entries.push({
         url: `${BASE_URL}/games/${slug}/${guide.slug}`,
-        lastModified: new Date(guide.frontmatter.updatedAt),
+        lastModified: safeDate(guide.frontmatter.updatedAt),
         changeFrequency: "weekly",
         priority: 0.7,
       });

@@ -6,15 +6,15 @@ interface GameHeaderProps {
 }
 
 const genreColors: Record<string, string> = {
-  "动作RPG": "bg-red-500/20 text-red-400 border-red-500/30",
-  "开放世界": "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  "冒险": "bg-green-500/20 text-green-400 border-green-500/30",
-  "动作": "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  "动作RPG": "bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/25 dark:border-rose-400/30",
+  "开放世界": "bg-sky-500/15 text-sky-600 dark:text-sky-400 border-sky-500/25 dark:border-sky-400/30",
+  "冒险": "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/25 dark:border-emerald-400/30",
+  "动作": "bg-orange-500/15 text-orange-600 dark:text-orange-400 border-orange-500/25 dark:border-orange-400/30",
 };
 
 export function GameHeader({ meta, guideCount }: GameHeaderProps) {
   const genreColor =
-    genreColors[meta.genre] || "bg-purple-500/20 text-purple-400 border-purple-500/30";
+    genreColors[meta.genre] || "bg-violet-500/15 text-violet-600 dark:text-violet-400 border-violet-500/25 dark:border-violet-400/30";
 
   return (
     <div className="rounded-2xl bg-surface border border-border overflow-hidden animate-fade-in">

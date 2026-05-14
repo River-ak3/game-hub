@@ -16,9 +16,9 @@ interface SearchResult {
 }
 
 const difficultyMap: Record<string, { label: string; color: string }> = {
-  beginner: { label: "入门", color: "bg-green-500/20 text-green-400 border-green-500/30" },
-  intermediate: { label: "进阶", color: "bg-yellow-500/20 text-yellow-400 border-yellow-500/30" },
-  advanced: { label: "高级", color: "bg-red-500/20 text-red-400 border-red-500/30" },
+  beginner: { label: "入门", color: "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/25 dark:border-emerald-400/30" },
+  intermediate: { label: "进阶", color: "bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/25 dark:border-amber-400/30" },
+  advanced: { label: "高级", color: "bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/25 dark:border-rose-400/30" },
 };
 
 export default function SearchContent() {
