@@ -75,7 +75,7 @@ export default function SearchContent() {
       <div className="animate-fade-in animation-delay-100 mb-8">
         <div className="relative">
           <svg
-            className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-text-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -93,11 +93,11 @@ export default function SearchContent() {
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="搜索游戏、攻略、Boss..."
-            className="w-full pl-10 sm:pl-12 pr-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-surface border border-border text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:ring-1 focus:ring-accent/25 transition-all text-sm sm:text-base"
+            className="w-full pl-11 sm:pl-12 pr-24 sm:pr-28 py-3.5 sm:py-4 rounded-2xl bg-surface border border-border text-text-primary placeholder-text-muted focus:outline-none focus:border-accent/50 focus:ring-2 focus:ring-accent/20 transition-all text-sm sm:text-base shadow-sm"
           />
           <button
             onClick={() => doSearch(query)}
-            className="absolute right-2 top-1/2 -translate-y-1/2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg sm:rounded-xl bg-primary text-white text-xs sm:text-sm font-medium hover:bg-primary-light transition-colors"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 px-4 sm:px-5 py-1.5 sm:py-2 rounded-xl bg-primary text-white text-sm font-medium hover:bg-primary-light transition-colors shadow-sm"
           >
             搜索
           </button>
