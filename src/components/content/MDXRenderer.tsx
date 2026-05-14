@@ -43,7 +43,7 @@ const components = {
       );
     }
     return (
-      <code className={`block bg-[#0d0f1a] text-text-primary p-4 rounded-lg overflow-x-auto text-sm font-mono ${className || ''}`} {...props}>
+      <code className={`block bg-surface-light text-text-primary p-4 rounded-lg overflow-x-auto text-sm font-mono ${className || ''}`} {...props}>
         {children}
       </code>
     );
