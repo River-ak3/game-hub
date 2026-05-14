@@ -2,59 +2,35 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ============================================
+   THEME — Light mode is DEFAULT
+   ============================================ */
 @theme inline {
   --color-primary: #ff4655;
   --color-primary-light: #ff6b78;
   --color-accent: #0acbff;
   --color-accent-light: #4dd8ff;
 
-  /* Default to dark mode — light mode overridden below */
-  --color-surface: #131629;
-  --color-surface-light: #1a1e3a;
-  --color-surface-lighter: #232850;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-text-primary: #e8eaf6;
-  --color-text-secondary: #8892b0;
-  --color-text-muted: #5a6380;
-
-  /* Tailwind default colors */
-  --color-background: #0b0d17;
-  --color-foreground: #e8eaf6;
-  --color-muted-foreground: #8892b0;
-  --color-card: #131629;
-  --color-card-foreground: #e8eaf6;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-ring: #ff4655;
-}
-
-/* ============================================
-   LIGHT THEME (default)
-   ============================================ */
-:root {
-  --background: #ffffff;
-  --foreground: #1a1a2e;
+  /* Light mode values (default) */
   --color-background: #ffffff;
   --color-foreground: #1a1a2e;
   --color-muted-foreground: #6b7280;
   --color-card: #f8f9fc;
   --color-card-foreground: #1a1a2e;
-  --color-border: rgba(0, 0, 0, 0.1);
+  --color-border: rgba(0, 0, 0, 0.08);
   --color-ring: #ff4655;
   --color-surface: #f5f6fa;
   --color-surface-light: #eef0f8;
   --color-surface-lighter: #e4e7f0;
-  --color-border: rgba(0, 0, 0, 0.08);
   --color-text-primary: #1a1a2e;
   --color-text-secondary: #4a4a6a;
   --color-text-muted: #8892b0;
 }
 
 /* ============================================
-   DARK THEME
+   DARK THEME OVERRIDES
    ============================================ */
 .dark {
-  --background: #0b0d17;
-  --foreground: #e8eaf6;
   --color-background: #0b0d17;
   --color-foreground: #e8eaf6;
   --color-muted-foreground: #8892b0;
@@ -65,15 +41,14 @@
   --color-surface: #131629;
   --color-surface-light: #1a1e3a;
   --color-surface-lighter: #232850;
-  --color-border: rgba(255, 255, 255, 0.08);
   --color-text-primary: #e8eaf6;
   --color-text-secondary: #8892b0;
   --color-text-muted: #5a6380;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: var(--color-background);
+  color: var(--color-foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
