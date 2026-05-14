@@ -4,6 +4,7 @@ import type { GuideContent } from "@/types/content";
 interface GuideCardProps {
   guide: GuideContent;
   gameSlug: string;
+  index?: number;
 }
 
 const difficultyMap: Record<string, { label: string; color: string }> = {
@@ -12,7 +13,7 @@ const difficultyMap: Record<string, { label: string; color: string }> = {
   advanced: { label: "高级", color: "bg-red-500/20 text-red-400 border-red-500/30" },
 };
 
-export function GuideCard({ guide, gameSlug }: GuideCardProps) {
+export function GuideCard({ guide, gameSlug, index = 0 }: GuideCardProps) {
   const fm = guide.frontmatter;
   const diff = fm.difficulty ? difficultyMap[fm.difficulty] : null;
 
@@ -20,6 +21,13 @@ export function GuideCard({ guide, gameSlug }: GuideCardProps) {
     <Link
       href={`/games/${gameSlug}/${guide.slug}`}
       className="group block min-h-[44px]"
+      id={`guide-${guide.slug}`}
+      onClick={() => {
+        if (typeof window !== "undefined") {
+          sessionStorage.setItem("scroll_restore_id", `guide-${guide.slug}`);
+          sessionStorage.setItem("scroll_restore_index", String(index));
+        }
+      }}
     >
       <div className="rounded-xl bg-surface border border-border p-4 sm:p-5 card-glow h-full">
         <div className="flex flex-wrap items-start justify-between gap-2 mb-2">
