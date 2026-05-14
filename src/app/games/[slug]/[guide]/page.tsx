@@ -160,11 +160,22 @@ export default async function GuidePage({ params }: PageProps) {
         </article>
 
         {/* Sidebar */}
-        <aside className="hidden lg:block w-80 shrink-0">
-          <div className="sticky top-24 space-y-6">
-            <div className="rounded-xl bg-surface border border-border p-5">
-              <h3 className="text-sm font-semibold text-text-primary mb-3">目录</h3>
-              <p className="text-xs text-text-muted">自动根据标题生成</p>
+        <aside className="hidden lg:block w-72 shrink-0">
+          <div className="toc-sticky space-y-3">
+            {/* Back to games */}
+            <a
+              href={`/games/${slug}`}
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors mb-2"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+              返回{game?.title || slug}攻略列表
+            </a>
+            {/* TOC Placeholder */}
+            <div className="rounded-xl bg-surface border border-border p-4">
+              <h3 className="text-xs font-semibold text-text-primary mb-2">目录</h3>
+              <p className="text-[11px] text-text-muted leading-relaxed">根据标题自动生成</p>
             </div>
             <AdSlot slot="sidebar" />
           </div>
