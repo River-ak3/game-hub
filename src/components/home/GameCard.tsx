@@ -2,79 +2,52 @@ import Link from "next/link";
 import type { GameMeta } from "@/types/content";
 
 interface GameCardProps {
-  game: GameMeta;
-  guideCount: number;
-  index: number;
+  game: Partial<GameMeta> & { slug: string };
 }
 
 const genreColors: Record<string, string> = {
-  "动作RPG": "bg-red-500/20 text-red-400 border-red-500/30",
-  "开放世界": "bg-blue-500/20 text-blue-400 border-blue-500/30",
-  "冒险": "bg-green-500/20 text-green-400 border-green-500/30",
-  "动作": "bg-orange-500/20 text-orange-400 border-orange-500/30",
+  RPG: "from-amber-500 to-orange-600",
+  MOBA: "from-red-500 to-rose-600",
+  沙盒: "from-green-500 to-emerald-600",
+  动作: "from-orange-500 to-red-600",
+  冒险: "from-cyan-500 to-teal-600",
 };
 
-export function GameCard({ game, guideCount, index }: GameCardProps) {
-  const genreColor =
-    genreColors[game.genre] || "bg-purple-500/20 text-purple-400 border-purple-500/30";
+export function GameCard({ game }: GameCardProps) {
+  const gradientClass = genreColors[game.genre || ""] || "from-primary to-accent";
 
   return (
-    <Link href={`/games/${game.slug}`} className="block animate-fade-in" style={{ animationDelay: `${index * 100}ms` }}>
-      <div className="group relative rounded-2xl bg-surface border border-border overflow-hidden card-glow">
-        {/* Cover image placeholder */}
-        <div className="relative h-48 bg-gradient-to-br from-surface-light to-surface-lighter overflow-hidden">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <span className="text-6xl opacity-30 group-hover:opacity-50 transition-opacity">
-              🎮
-            </span>
-          </div>
-          {/* Genre badge */}
-          <div className="absolute top-3 left-3">
-            <span
-              className={`inline-flex px-2.5 py-1 rounded-full text-xs font-medium border ${genreColor}`}
-            >
+    <Link
+      href={`/games/${game.slug}`}
+      className="group block min-h-[44px]"
+    >
+      <div className="rounded-2xl bg-surface border border-border overflow-hidden card-glow h-full">
+        <div className={`relative h-36 sm:h-48 bg-gradient-to-br ${gradientClass} flex items-center justify-center overflow-hidden`}>
+          <span className="text-5xl sm:text-6xl drop-shadow-lg select-none">🎮</span>
+          {game.genre && (
+            <span className="absolute top-3 right-3 px-2.5 py-1 rounded-full text-[11px] font-medium bg-black/40 text-white backdrop-blur-sm">
               {game.genre}
             </span>
-          </div>
-          {/* Guide count */}
-          <div className="absolute top-3 right-3">
-            <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-black/40 backdrop-blur-sm text-white">
-              <svg
-                className="w-3 h-3"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              {guideCount} 篇攻略
-            </span>
-          </div>
+          )}
         </div>
-
-        {/* Content */}
-        <div className="p-5">
-          <h3 className="text-lg font-bold text-text-primary group-hover:text-primary transition-colors mb-2">
-            {game.title}
+        <div className="p-4 sm:p-5">
+          <h3 className="text-base sm:text-lg font-bold text-text-primary group-hover:text-primary transition-colors line-clamp-1 mb-1.5">
+            {game.title || game.slug}
           </h3>
-          <p className="text-sm text-text-secondary leading-relaxed line-clamp-2 mb-4">
-            {game.description}
-          </p>
-          <div className="flex flex-wrap gap-1.5">
-            {game.tags.slice(0, 3).map((tag) => (
-              <span
-                key={tag}
-                className="px-2 py-0.5 rounded-md text-xs text-text-muted bg-surface-lighter"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {game.description && (
+            <p className="text-xs sm:text-sm text-text-secondary line-clamp-2 mb-3">
+              {game.description}
+            </p>
+          )}
+          {game.tags && game.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1">
+              {game.tags.slice(0, 3).map((tag) => (
+                <span key={tag} className="text-[10px] sm:text-xs px-1.5 py-0.5 rounded bg-surface-lighter text-text-muted">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </Link>
