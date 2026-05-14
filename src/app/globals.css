@@ -2,16 +2,14 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ============================================
-   THEME — Light mode is DEFAULT
-   ============================================ */
 @theme inline {
+  /* Brand colors (theme-invariant) */
   --color-primary: #ff4655;
   --color-primary-light: #ff6b78;
   --color-accent: #0acbff;
   --color-accent-light: #4dd8ff;
 
-  /* Light mode values (default) */
+  /* Semantic colors — default to LIGHT values (:root is default) */
   --color-background: #ffffff;
   --color-foreground: #1a1a2e;
   --color-muted-foreground: #6b7280;
@@ -28,9 +26,32 @@
 }
 
 /* ============================================
-   DARK THEME OVERRIDES
+   LIGHT THEME (default — matches @theme inline)
+   ============================================ */
+:root {
+  --background: #ffffff;
+  --foreground: #1a1a2e;
+  --color-background: #ffffff;
+  --color-foreground: #1a1a2e;
+  --color-muted-foreground: #6b7280;
+  --color-card: #f8f9fc;
+  --color-card-foreground: #1a1a2e;
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-ring: #ff4655;
+  --color-surface: #f5f6fa;
+  --color-surface-light: #eef0f8;
+  --color-surface-lighter: #e4e7f0;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #4a4a6a;
+  --color-text-muted: #8892b0;
+}
+
+/* ============================================
+   DARK THEME
    ============================================ */
 .dark {
+  --background: #0b0d17;
+  --foreground: #e8eaf6;
   --color-background: #0b0d17;
   --color-foreground: #e8eaf6;
   --color-muted-foreground: #8892b0;
